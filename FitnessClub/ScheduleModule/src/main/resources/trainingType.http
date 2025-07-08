@@ -1,0 +1,24 @@
+### POST request to create a new training type
+POST http://localhost:8080/api/training-types
+Content-Type: application/json
+
+{
+  "trainingTypeName": "Zumba"
+}
+
+### GET request to retrieve a training type by ID
+GET http://localhost:8080/api/training-types/1
+
+### GET request to retrieve all training types
+GET http://localhost:8080/api/training-types
+
+### PUT request to update a training type
+PUT http://localhost:8080/api/training-types/1
+Content-Type: application/json
+
+{
+  "trainingTypeName": "Updated Zumba"
+}
+
+### DELETE request to delete a training type
+DELETE http://localhost:8080/api/training-types/1

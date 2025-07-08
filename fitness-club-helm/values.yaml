@@ -1,0 +1,37 @@
+gateway:
+  image: fitnessclub-gateway:latest
+  port: 8080
+
+clientService:
+  image: fitnessclub-client-service:latest
+  port: 8081
+
+employeeService:
+  image: fitnessclub-employee-service:latest
+  port: 8082
+
+scheduleService:
+  image: fitnessclub-schedule-service:latest
+  port: 8083
+
+telegramBot:
+  image: fitnessclub-telegram-bot:latest
+  port: 8085
+
+postgres1:
+  image: postgres:15
+  port: 5432
+  database: people
+  user: su
+  password: su
+
+postgres2:
+  image: postgres:15
+  port: 5432
+  database: schedules
+  user: su
+  password: su
+  
+zipkin:
+  image: openzipkin/zipkin
+  port: 9411

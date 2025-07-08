@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  labels:
+    app: gateway
+spec:
+  type: LoadBalancer  # Измените на ClusterIP, если LoadBalancer не работает
+  selector:
+    app: gateway
+  ports:
+    - protocol: TCP
+      port: 8080  # Порт для доступа к gateway извне
+      targetPort: {{ .Values.gateway.port }}

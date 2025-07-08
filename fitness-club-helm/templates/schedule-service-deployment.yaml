@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedule-service-deployment
+  labels:
+    app: schedule-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: schedule-service
+  template:
+    metadata:
+      labels:
+        app: schedule-service
+    spec:
+      containers:
+        - name: schedule-service
+          image: {{ .Values.scheduleService.image }}
+          imagePullPolicy: Never
+          ports:
+            - containerPort: {{ .Values.scheduleService.port }}

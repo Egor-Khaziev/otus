@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: employee-service
+  labels:
+    app: employee-service
+spec:
+  type: ClusterIP
+  selector:
+    app: employee-service
+  ports:
+    - protocol: TCP
+      port: {{ .Values.employeeService.port }}
+      targetPort: {{ .Values.employeeService.port }}

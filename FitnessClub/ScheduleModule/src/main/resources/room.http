@@ -1,0 +1,24 @@
+### POST request to create a new room
+POST http://localhost:8080/api/rooms
+Content-Type: application/json
+
+{
+  "roomName": "Room C"
+}
+
+### GET request to retrieve a room by ID
+GET http://localhost:8080/api/rooms/1
+
+### GET request to retrieve all rooms
+GET http://localhost:8080/api/rooms
+
+### PUT request to update a room
+PUT http://localhost:8080/api/rooms/1
+Content-Type: application/json
+
+{
+  "roomName": "Updated Room C"
+}
+
+### DELETE request to delete a room
+DELETE http://localhost:8080/api/rooms/1

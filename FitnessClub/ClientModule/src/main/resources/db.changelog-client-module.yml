@@ -1,0 +1,214 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-clients-table
+      author: Khegory
+      changes:
+        - createTable:
+            tableName: clients
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: gender
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: birthday
+                  type: DATE
+              - column:
+                  name: first_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: VARCHAR(100)
+              - column:
+                  name: last_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: wallet
+                  type: DECIMAL(10, 2)
+                  defaultValue: 0
+              - column:
+                  name: phone_number
+                  type: VARCHAR(20)
+              - column:
+                  name: telegram
+                  type: VARCHAR(100)
+              - column:
+                  name: telegram_id
+                  type: VARCHAR(100)
+        - createIndex:
+            tableName: clients
+            indexName: idx_clients_phone_number_unique
+            unique: true
+            columns:
+              - column:
+                  name: phone_number
+        - createIndex:
+            tableName: clients
+            indexName: idx_clients_telegram_unique
+            unique: true
+            columns:
+              - column:
+                  name: telegram
+
+  - changeSet:
+      id: create-payments-table
+      author: Khegory
+      changes:
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  name: operation_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: operation_public_id
+                  type: VARCHAR(200)
+              - column:
+                  name: operation_name
+                  type: VARCHAR(200)
+              - column:
+                  name: operation_amount
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: operation_type
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: fk_payments_clients
+      author: Khegory
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: payments
+            baseColumnNames: client_id
+            constraintName: fk_payments_clients
+            referencedTableName: clients
+            referencedColumnNames: id
+  - changeSet:
+      id: clients_seq
+      author: Khegory
+      changes:
+        - createSequence:
+            sequenceName: clients_seq
+            startValue: 5
+            incrementBy: 1
+  - changeSet:
+      id: payments_seq
+      author: Khegory
+      changes:
+        - createSequence:
+            sequenceName: payments_seq
+            startValue: 5
+            incrementBy: 1
+
+  - changeSet:
+      id: insert-test-data-clients
+      author: Khegory
+      changes:
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: id, value: '1' }
+              - column: { name: gender, value: 'MAN' }
+              - column: { name: birthday, value: '2001-05-15' }
+              - column: { name: first_name, value: 'Егор' }
+              - column: { name: patronymic, value: 'Игоревич' }
+              - column: { name: last_name, value: 'Хазиев' }
+              - column: { name: wallet, value: '100.00' }
+              - column: { name: phone_number, value: '+79236990731' }
+#              - column: { name: telegram, value: 'egorkhaziev' }
+#              - column: { name: telegram, value: '222222' }
+              - column: { name: telegram_id, value: '440383461' }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: id, value: '2' }
+              - column: { name: gender, value: 'WOMAN' }
+              - column: { name: birthday, value: '1995-05-20' }
+              - column: { name: first_name, value: 'Ксения' }
+              - column: { name: patronymic, value: 'Сергеевна' }
+              - column: { name: last_name, value: 'Хазиева' }
+              - column: { name: wallet, value: '250.75' }
+              - column: { name: phone_number, value: '+79333020725' }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: id, value: '3' }
+              - column: { name: gender, value: 'MAN' }
+              - column: { name: birthday, value: '1999-03-11' }
+              - column: { name: first_name, value: 'Jake' }
+              - column: { name: patronymic, value: 'Tom' }
+              - column: { name: last_name, value: 'Peterson' }
+              - column: { name: wallet, value: '10.00' }
+              - column: { name: phone_number, value: '+79167654321' }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: id, value: '4' }
+              - column: { name: gender, value: 'MAN' }
+              - column: { name: birthday, value: '1990-01-25' }
+              - column: { name: first_name, value: 'John' }
+              - column: { name: patronymic, value: 'Middle' }
+              - column: { name: last_name, value: 'Doe' }
+              - column: { name: wallet, value: '100.50' }
+              - column: { name: phone_number, value: '+79161234000' }
+
+  - changeSet:
+      id: insert-test-data-payments
+      author: Khegory
+      changes:
+        - insert:
+            tableName: payments
+            columns:
+              - column: { name: operation_id, value: '1' }
+              - column: { name: operation_public_id, value: 'txn123' }
+              - column: { name: operation_name, value: 'Grocery Purchase' }
+              - column: { name: operation_amount, value: '35.20' }
+              - column: { name: operation_type, value: 'PURCHASE' }
+              - column: { name: client_id, value: '1' }
+        - insert:
+            tableName: payments
+            columns:
+              - column: { name: operation_id, value: '2' }
+              - column: { name: operation_public_id, value: 'txn456' }
+              - column: { name: operation_name, value: 'Salary Deposit' }
+              - column: { name: operation_amount, value: '1000.00' }
+              - column: { name: operation_type, value: 'DEPOSIT' }
+              - column: { name: client_id, value: '2' }
+        - insert:
+            tableName: payments
+            columns:
+              - column: { name: operation_id, value: '3' }
+              - column: { name: operation_public_id, value: 'txn566' }
+              - column: { name: operation_name, value: 'Grocery Purchase' }
+              - column: { name: operation_amount, value: '35.20' }
+              - column: { name: operation_type, value: 'PURCHASE' }
+              - column: { name: client_id, value: '4' }
+        - insert:
+            tableName: payments
+            columns:
+              - column: { name: operation_id, value: '4' }
+              - column: { name: operation_public_id, value: 'txn899' }
+              - column: { name: operation_name, value: 'Salary Deposit' }
+              - column: { name: operation_amount, value: '1000.00' }
+              - column: { name: operation_type, value: 'DEPOSIT' }
+              - column: { name: client_id, value: '2' }

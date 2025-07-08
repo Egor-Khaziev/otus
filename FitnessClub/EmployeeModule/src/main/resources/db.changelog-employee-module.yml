@@ -1,0 +1,173 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-employees-table
+      author: Khegory
+      changes:
+        - createSequence:
+            sequenceName: employees_seq
+            startValue: 3
+            incrementBy: 1
+        - createTable:
+            tableName: employees
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueSequenceNext: employees_seq
+              - column:
+                  name: gender
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: birthday
+                  type: DATE
+              - column:
+                  name: first_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: VARCHAR(100)
+              - column:
+                  name: last_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: salary
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: create-payments_emp-table
+      author: Khegory
+      changes:
+        - createSequence:
+            sequenceName: payments_emp_seq
+            startValue: 3
+            incrementBy: 1
+        - createTable:
+            tableName: payments_emp
+            columns:
+              - column:
+                  name: operation_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueSequenceNext: payments_emp_seq
+              - column:
+                  name: operation_public_id
+                  type: VARCHAR(200)
+              - column:
+                  name: operation_name
+                  type: VARCHAR(200)
+              - column:
+                  name: operation_amount
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: operation_type
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: employee_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: payments_emp
+            baseColumnNames: employee_id
+            constraintName: fk_payments_emp_employees
+            referencedTableName: employees
+            referencedColumnNames: id
+
+  - changeSet:
+      id: insert-test-data-employees
+      author: Khegory
+      changes:
+        - insert:
+            tableName: employees
+            columns:
+              - column: { name: id, value: '1' }
+              - column: { name: gender, value: 'MAN' }
+              - column: { name: birthday, value: '2001-05-15' }
+              - column: { name: first_name, value: 'Владимир' }
+              - column: { name: patronymic, value: 'Владимирович' }
+              - column: { name: last_name, value: 'Путин' }
+              - column: { name: salary, value: '5000.00' }
+        - insert:
+            tableName: employees
+            columns:
+              - column: { name: id, value: '2' }
+              - column: { name: gender, value: 'WOMAN' }
+              - column: { name: birthday, value: '1985-05-20' }
+              - column: { name: first_name, value: 'Жанна' }
+              - column: { name: patronymic, value: 'Марковна' }
+              - column: { name: last_name, value: 'Гурченко' }
+              - column: { name: salary, value: '6000.50' }
+        - insert:
+            tableName: employees
+            columns:
+              - column: { name: id, value: '3' }
+              - column: { name: gender, value: 'MAN' }
+              - column: { name: birthday, value: '2001-05-15' }
+              - column: { name: first_name, value: 'Михаил' }
+              - column: { name: patronymic, value: 'Егорович' }
+              - column: { name: last_name, value: 'Хазиев' }
+              - column: { name: salary, value: '5000.00' }
+        - insert:
+            tableName: employees
+            columns:
+              - column: { name: id, value: '4' }
+              - column: { name: gender, value: 'WOMAN' }
+              - column: { name: birthday, value: '1985-05-20' }
+              - column: { name: first_name, value: 'Ксения' }
+              - column: { name: patronymic, value: 'Сергеевна' }
+              - column: { name: last_name, value: 'Хазиева' }
+              - column: { name: salary, value: '6000.50' }
+  - changeSet:
+      id: insert-test-data-payments_emp
+      author: Khegory
+      changes:
+        - insert:
+            tableName: payments_emp
+            columns:
+              - column: { name: operation_id, value: '1' }
+              - column: { name: operation_public_id, value: 'tsdn1233' }
+              - column: { name: operation_name, value: 'salary' }
+              - column: { name: operation_amount, value: '3500.20' }
+              - column: { name: operation_type, value: 'SALARY' }
+              - column: { name: employee_id, value: '1' }
+        - insert:
+            tableName: payments_emp
+            columns:
+              - column: { name: operation_id, value: '2' }
+              - column: { name: operation_public_id, value: 'tszn1203' }
+              - column: { name: operation_name, value: 'salary' }
+              - column: { name: operation_amount, value: '5500.20' }
+              - column: { name: operation_type, value: 'SALARY' }
+              - column: { name: employee_id, value: '2' }
+        - insert:
+            tableName: payments_emp
+            columns:
+              - column: { name: operation_id, value: '3' }
+              - column: { name: operation_public_id, value: 'tsdn1236' }
+              - column: { name: operation_name, value: 'salary' }
+              - column: { name: operation_amount, value: '3500.20' }
+              - column: { name: operation_type, value: 'SALARY' }
+              - column: { name: employee_id, value: '3' }
+        - insert:
+            tableName: payments_emp
+            columns:
+              - column: { name: operation_id, value: '4' }
+              - column: { name: operation_public_id, value: 'tszn1206' }
+              - column: { name: operation_name, value: 'salary' }
+              - column: { name: operation_amount, value: '5500.20' }
+              - column: { name: operation_type, value: 'SALARY' }
+              - column: { name: employee_id, value: '4' }

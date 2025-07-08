@@ -1,0 +1,34 @@
+### POST request to example server
+POST http://localhost:8082/api/employees
+Content-Type: application/json
+
+{
+  "gender": "MAN",
+  "birthday": "1990-01-01",
+  "firstName": "Test",
+  "patronymic": "Optional",
+  "lastName": "Client",
+  "wallet": 123.45
+}
+
+### POST request to example server
+POST http://localhost:8082/api/employees
+Content-Type: application/json
+
+{
+  "gender": "WOMAN",
+  "birthday": "2015-10-10",
+  "firstName": "Testani",
+  "patronymic": "Optional",
+  "lastName": "Client",
+  "wallet": 10000.00
+}
+
+### GET request to example server
+GET http://localhost:8082/api/employees/2
+
+### GET request to example server
+GET http://localhost:8082/api/employees/4
+
+### GET request to example server
+GET http://localhost:8082/api/employees

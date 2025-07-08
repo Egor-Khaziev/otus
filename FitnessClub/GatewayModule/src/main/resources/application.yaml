@@ -1,0 +1,98 @@
+server:
+  port: 8080
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+#      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: http://localhost:9411/api/v2/spans
+
+spring:
+  application:
+    name: "GatewayModule"
+
+  cloud:
+    gateway:
+      routes:
+        - id: client-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/clients/**
+          filters:
+
+        - id: payment-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/payments/**
+          filters:
+
+        - id: employee-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/employees/**
+          filters:
+
+        - id: schedule-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/schedules/**
+          filters:
+
+        - id: room-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/rooms/**
+          filters:
+
+        - id: training-type-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/training-types/**
+          filters:
+#
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: client-service
+#          uri: http://client-service:8081
+#          predicates:
+#            - Path=/api/clients/**
+#          filters:
+#
+#        - id: payment-service
+#          uri: http://client-service:8081
+#          predicates:
+#            - Path=/api/payments/**
+#          filters:
+#
+#        - id: employee-service
+#          uri: http://employee-service:8082
+#          predicates:
+#            - Path=/api/employees/**
+#          filters:
+#
+#        - id: schedule-service
+#          uri: http://schedule-service:8083
+#          predicates:
+#            - Path=/api/schedules/**
+#          filters:
+#
+#        - id: room-service
+#          uri: http://schedule-service:8083
+#          predicates:
+#            - Path=/api/rooms/**
+#          filters:
+#
+#        - id: training-type-service
+#          uri: http://schedule-service:8083
+#          predicates:
+#            - Path=/api/training-types/**
+#          filters:
+

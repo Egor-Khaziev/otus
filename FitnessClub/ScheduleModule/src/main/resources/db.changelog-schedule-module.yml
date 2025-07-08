@@ -1,0 +1,527 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-training-type-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: training_type
+            columns:
+              - column:
+                  name: training_type_id
+                  type: INTEGER
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: training_type_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: create-room-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: room
+            columns:
+              - column:
+                  name: room_id
+                  type: INTEGER
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: room_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: create-schedule-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: schedule
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: date_time_start
+                  type: TIMESTAMP WITHOUT TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_time_end
+                  type: TIMESTAMP WITHOUT TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_id
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_schedule_room
+                    references: room(room_id)
+              - column:
+                  name: training_type_id
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_schedule_training_type
+                    references: training_type(training_type_id)
+              - column:
+                  name: comment
+                  type: VARCHAR(255)
+              - column:
+                  name: number_tr
+                  type: BIGINT
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: add-cl-list-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: cl_value
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: schedule_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: cl_list
+            baseColumnNames: schedule_id
+            constraintName: fk_cl_list_schedule
+            referencedTableName: schedule
+            referencedColumnNames: id
+##########################################################################################
+  - changeSet:
+      id: insert-training-type-data-extended
+      author: your_name
+      changes:
+        - insert:
+            tableName: training_type
+            columns:
+              - column:
+                  name: training_type_name
+                  value: Yoga (Hatha)
+        - insert:
+            tableName: training_type
+            columns:
+              - column:
+                  name: training_type_name
+                  value: Pilates (Mat)
+        - insert:
+            tableName: training_type
+            columns:
+              - column:
+                  name: training_type_name
+                  value: Strength Training
+        - insert:
+            tableName: training_type
+            columns:
+              - column:
+                  name: training_type_name
+                  value: Cardio (Spin)
+        - insert:
+            tableName: training_type
+            columns:
+              - column:
+                  name: training_type_name
+                  value: Zumba
+        - insert:
+            tableName: training_type
+            columns:
+              - column:
+                  name: training_type_name
+                  value: Pilates
+
+  - changeSet:
+      id: insert-room-data-extended
+      author: your_name
+      changes:
+        - insert:
+            tableName: room
+            columns:
+              - column:
+                  name: room_name
+                  value: Studio 1
+        - insert:
+            tableName: room
+            columns:
+              - column:
+                  name: room_name
+                  value: Studio 2 (Mirrored)
+        - insert:
+            tableName: room
+            columns:
+              - column:
+                  name: room_name
+                  value: Weights room
+        - insert:
+            tableName: room
+            columns:
+              - column:
+                  name: room_name
+                  value: Spin Studio
+        - insert:
+            tableName: room
+            columns:
+              - column:
+                  name: room_name
+                  value: Outdoor Area
+
+  - changeSet:
+      id: insert-schedule-data-extended
+      author: your_name
+      changes:
+        - insert:
+            tableName: schedule
+            columns:
+              - column:
+                  name: date_time_start
+                  value: 2024-08-05 09:00:00
+                  valueComputed: NOW()
+              - column:
+                  name: date_time_end
+                  value: 2024-08-05 10:00:00
+                  valueComputed: NOW()
+              - column:
+                  name: room_id
+                  value: 1
+              - column:
+                  name: training_type_id
+                  value: 1
+              - column:
+                  name: comment
+                  value: Morning Hatha Yoga
+              - column:
+                  name: number_tr
+                  value: 1
+        - insert:
+            tableName: schedule
+            columns:
+              - column:
+                  name: date_time_start
+                  value: 2024-08-05 10:30:00
+                  valueComputed: NOW()
+              - column:
+                  name: date_time_end
+                  value: 2024-08-05 11:30:00
+                  valueComputed: NOW()
+              - column:
+                  name: room_id
+                  value: 2
+              - column:
+                  name: training_type_id
+                  value: 2
+              - column:
+                  name: comment
+                  value: Mid-Morning Pilates
+              - column:
+                  name: number_tr
+                  value: 1
+        - insert:
+            tableName: schedule
+            columns:
+              - column:
+                  name: date_time_start
+                  value: 2024-08-05 17:00:00
+                  valueComputed: NOW()
+              - column:
+                  name: date_time_end
+                  value: 2024-08-05 18:00:00
+                  valueComputed: NOW()
+              - column:
+                  name: room_id
+                  value: 3
+              - column:
+                  name: training_type_id
+                  value: 3
+              - column:
+                  name: comment
+                  value: Evening Strength Training
+              - column:
+                  name: number_tr
+                  value: 2
+        - insert:
+            tableName: schedule
+            columns:
+              - column:
+                  name: date_time_start
+                  value: 2024-08-06 07:00:00
+                  valueComputed: NOW()
+              - column:
+                  name: date_time_end
+                  value: 2024-08-06 07:45:00
+                  valueComputed: NOW()
+              - column:
+                  name: room_id
+                  value: 4
+              - column:
+                  name: training_type_id
+                  value: 4
+              - column:
+                  name: comment
+                  value: Early Morning Spin
+              - column:
+                  name: number_tr
+                  value: 3
+        - insert:
+            tableName: schedule
+            columns:
+              - column:
+                  name: date_time_start
+                  value: 2024-08-06 18:30:00
+                  valueComputed: NOW()
+              - column:
+                  name: date_time_end
+                  value: 2024-08-06 19:30:00
+                  valueComputed: NOW()
+              - column:
+                  name: room_id
+                  value: 5
+              - column:
+                  name: training_type_id
+                  value: 5
+              - column:
+                  name: comment
+                  value: Zumba in the Park
+              - column:
+                  name: number_tr
+                  value: 4
+  - changeSet:
+      id: insert-cl-list-data-extended
+      author: your_name
+      changes:
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 1
+              - column:
+                  name: schedule_id
+                  value: 1
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 2
+              - column:
+                  name: schedule_id
+                  value: 1
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 3
+              - column:
+                  name: schedule_id
+                  value: 1
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 1
+              - column:
+                  name: schedule_id
+                  value: 2
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 2
+              - column:
+                  name: schedule_id
+                  value: 2
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 1
+              - column:
+                  name: schedule_id
+                  value: 3
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 1
+              - column:
+                  name: schedule_id
+                  value: 4
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 1
+              - column:
+                  name: schedule_id
+                  value: 5
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 2
+              - column:
+                  name: schedule_id
+                  value: 5
+        - insert:
+            tableName: cl_list
+            columns:
+              - column:
+                  name: cl_value
+                  value: 3
+              - column:
+                  name: schedule_id
+                  value: 5
+#  - changeSet:
+#      id: insert-training-type-data
+#      author: your_name
+#      changes:
+#        - insert:
+#            tableName: training_type
+#            columns:
+#              - column:
+#                  name: training_type_name
+#                  value: Yoga
+#        - insert:
+#            tableName: training_type
+#            columns:
+#              - column:
+#                  name: training_type_name
+#                  value: Pilates
+#
+#  - changeSet:
+#      id: insert-room-data
+#      author: your_name
+#      changes:
+#        - insert:
+#            tableName: room
+#            columns:
+#              - column:
+#                  name: room_name
+#                  value: room A
+#        - insert:
+#            tableName: room
+#            columns:
+#              - column:
+#                  name: room_name
+#                  value: room B
+#
+#  - changeSet:
+#      id: insert-schedule-data
+#      author: your_name
+#      changes:
+#        - insert:
+#            tableName: schedule
+#            columns:
+#              - column:
+#                  name: date_time_start
+#                  value: 2024-08-01 10:00:00
+#                  valueComputed: NOW()  # alternative way if NOW()
+#              - column:
+#                  name: date_time_end
+#                  value: 2024-08-01 11:00:00
+#                  valueComputed: NOW() # alternative way if NOW()
+#              - column:
+#                  name: room_id
+#                  value: 1
+#              - column:
+#                  name: training_type_id
+#                  value: 1
+#              - column:
+#                  name: comment
+#                  value: Morning Yoga Class
+#              - column:
+#                  name: number_tr
+#                  value: 10
+#        - insert:
+#            tableName: schedule
+#            columns:
+#              - column:
+#                  name: date_time_start
+#                  value: 2024-08-01 13:00:00
+#                  valueComputed: NOW()
+#              - column:
+#                  name: date_time_end
+#                  value: 2024-08-01 14:00:00
+#                  valueComputed: NOW()
+#              - column:
+#                  name: room_id
+#                  value: 2
+#              - column:
+#                  name: training_type_id
+#                  value: 2
+#              - column:
+#                  name: comment
+#                  value: Afternoon Pilates Class
+#              - column:
+#                  name: number_tr
+#                  value: 15
+#
+#  - changeSet:
+#      id: insert-cl-list-data
+#      author: your_name
+#      changes:
+#        - insert:
+#            tableName: cl_list
+#            columns:
+#              - column:
+#                  name: cl_value
+#                  value: 101
+#              - column:
+#                  name: schedule_id
+#                  value: 1
+#        - insert:
+#            tableName: cl_list
+#            columns:
+#              - column:
+#                  name: cl_value
+#                  value: 102
+#              - column:
+#                  name: schedule_id
+#                  value: 1
+#        - insert:
+#            tableName: cl_list
+#            columns:
+#              - column:
+#                  name: cl_value
+#                  value: 201
+#              - column:
+#                  name: schedule_id
+#                  value: 2

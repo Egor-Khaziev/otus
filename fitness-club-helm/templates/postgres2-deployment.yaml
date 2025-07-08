@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres2-deployment
+  labels:
+    app: postgres2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres2
+  template:
+    metadata:
+      labels:
+        app: postgres2
+    spec:
+      containers:
+        - name: postgres2
+          image: {{ .Values.postgres2.image }}
+          ports:
+            - containerPort: {{ .Values.postgres2.port }}
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres2.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres2.password }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres2.database }}

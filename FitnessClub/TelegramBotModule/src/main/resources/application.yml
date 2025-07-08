@@ -1,0 +1,29 @@
+server:
+  port: 8085
+
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0  # 100% семплирование
+  zipkin:
+    tracing:
+#      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: http://localhost:9411/api/v2/spans
+
+spring:
+  application:
+    name: "TelegramFitnessBot"
+
+#liquibase
+  liquibase:
+    enabled: false
+    #drop-first: false
+    #change-log: classpath:db.changelog-schedule-module.yml
+
+#BOT
+
+
+bot:
+  token: "6980044764:AAFK3uSSpiM0NOW9tUFql7F3JAb6C7FVwe0"
+  name: "khegoribot"
